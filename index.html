@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Cadbury Festive Flavour Finder</title>
+</head>
+
+<body>
+  <img src="./assets/overlay.png" alt="Background Overlay" class="overlay-image">
+  <div class="container">
+    <img src="assets/logo.png" alt="Cadbury logo" id="logo">
+    <h2>Festive Flavour Finder</h2>
+    <p>Upload your selfie to uncover your magical festive flavour!</p>
+
+    <input type="file" id="selfieInput" accept="image/*" />
+    <button id="revealFlavor">Reveal My Flavour</button>
+
+    <div class="suggestion" id="suggestion">
+      <h2>Your Festive Flavour:</h2>
+      <img id="chocolateImage" src="" alt="Festive Chocolate" />
+      <h2 id="chocolateName"></h2>
+      <p id="chocolateMood"></p>
+      <p id="chocolateDescription"></p>
+    </div>
+  </div>
+
+  <script>
+
+
+    document.getElementById("revealFlavor").addEventListener("click", async () => {
+
+      const fileInput = document.getElementById("selfieInput");
+      if (!fileInput.files.length) {
+        alert("Please upload a selfie first!");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("selfie", fileInput.files[0]);
+
+      const button = document.getElementById("revealFlavor");
+      button.textContent = "Analyzing... 🎩✨";
+      button.disabled = true;
+
+      //try {
+
+
+        const response = await fetch("http://localhost:3000/analyze", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+
+        const data = await response.json();
+        document.getElementById("chocolateImage").src = data.image;
+        if (data.name === 'No faces detected') {
+          document.getElementById("chocolateMood").textContent = ` ${data.mood}`;
+        }
+        else {
+          document.getElementById("chocolateMood").textContent = `Detected Mood: ${data.mood}`;
+        }
+
+        document.getElementById("chocolateName").textContent = data.name;
+        document.getElementById("chocolateDescription").textContent =
+          data.description;
+        document.getElementById("suggestion").style.display = "block";
+      //} catch (error) {
+       // alert("Something went wrong! Please try again later.");
+        //console.error(error);
+      //} finally {
+        button.textContent = "Reveal My Flavor";
+        button.disabled = false;
+     // }
+    });
+
+  </script>
+</body>
+
+</html>
+
+<!-- document.getElementById("revealFlavor").addEventListener("click", async () => {
+  const fileInput = document.getElementById("selfieInput");
+  if (!fileInput.files.length) {
+    alert("Please upload a selfie first!");
+    return;
+  }
+
+  // Create FormData to send the file to the server
+  const formData = new FormData();
+  formData.append("selfie", fileInput.files[0]); // Add the file to the form data object
+
+  console.log(fileInput.files[0]);
+  // Show loading message
+  const button = document.getElementById("revealFlavor");
+  button.textContent = "Analyzing... 🎩✨";
+  button.disabled = true;
+
+  try {
+    // Send the file to the server
+     const response = await fetch("/analyze", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+    console.log(data);
+
+    // Display the suggestion
+    document.getElementById("chocolateImage").src = data.image;
+    document.getElementById("chocolateName").textContent = data.name;
+    document.getElementById("chocolateDescription").textContent =
+      data.description;
+    document.getElementById("suggestion").style.display = "block";
+  } catch (error) {
+    alert("Something went wrong! Please try again later.");
+    console.error(error);
+  } finally {
+    button.textContent = "Reveal My Flavor";
+    button.disabled = false;
+  }
+}); -->
