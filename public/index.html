@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <img src="./assets/overlay.png" alt="Background Overlay" class="overlay-image">
+  <img src="../assets/overlay.png" alt="Background Overlay" class="overlay-image">
   <div class="container">
     <img src="assets/logo.png" alt="Cadbury logo" id="logo">
     <h2>Festive Flavour Finder</h2>
@@ -45,7 +45,7 @@
       button.textContent = "Analyzing... 🎩✨";
       button.disabled = true;
 
-      //try {
+      try {
 
 
         const response = await fetch("http://localhost:3000/analyze", {
@@ -71,14 +71,14 @@
         document.getElementById("chocolateDescription").textContent =
           data.description;
         document.getElementById("suggestion").style.display = "block";
-      //} catch (error) {
-       // alert("Something went wrong! Please try again later.");
-        //console.error(error);
-      //} finally {
+        } catch (error) {
+         alert("Something went wrong! Please try again later.");
+        console.error(error);
+        } finally {
         button.textContent = "Reveal My Flavor";
         button.disabled = false;
-     // }
-    });
+         }
+      });
 
   </script>
 </body>

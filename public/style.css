@@ -9,16 +9,16 @@
 
 @font-face {
     font-family:'HennyPenny' ;
-    src: url('./assets/HennyPenny-Regular.ttf');
+    src: url('../assets/HennyPenny-Regular.ttf');
 }
 @font-face {
   font-family: 'Bestie';
-  src: url('./assets/Bestie.otf');
+  src: url('../assets/Bestie.otf');
 }
 
 @font-face {
   font-family: 'comic';
-  src: url('./assets/comic.ttf');
+  src: url('../assets/comic.ttf');
 }
 body {
   font-family: 'Arial', sans-serif;
@@ -243,7 +243,7 @@ button:hover {
 .container::before {
   height: 250px;
   width: 250px;
-  background-image: url('./assets/chocolate.png');
+  background-image: url('../assets/chocolate.png');
   top: 80%;
   left: -205px;
   animation: float 3s ease-in-out infinite;
